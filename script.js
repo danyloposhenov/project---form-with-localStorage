@@ -1,5 +1,6 @@
 'use strict';
 
+
 //Variables
 
 const sel = selector => document.querySelector(selector);
@@ -80,7 +81,7 @@ function checkInput() {
     }
 }
 
-function clearInput(){
+function clearInput() {
     firstName.value = '';
     lastName.value = '';
     emailSignUp.value = '';
@@ -88,7 +89,10 @@ function clearInput(){
     firstName.style.border = 'none';
     lastName.style.border = 'none';
     emailSignUp.style.border = 'none';
+    emailSignIn.style.border = 'none';
     passwordSignUp.style.border = 'none';
+    passwordSignIn.style.border = 'none';
+    sel('.error').classList.add('hide');
     signUp.disabled = true;
     signUp.style.background = 'rgb(89, 152, 203)';
 }
@@ -96,11 +100,11 @@ function clearInput(){
 formSignUp.addEventListener('input', checkInput);
 
 formSignIn.style.display = 'none';
-refSignIn.addEventListener('click', function(){
+refSignIn.addEventListener('click', function () {
     formSignIn.style.display = 'flex';
     formSignUp.style.display = 'none';
 })
-refSignUp.addEventListener('click', function(){
+refSignUp.addEventListener('click', function () {
     formSignIn.style.display = 'none';
     formSignUp.style.display = 'flex';
 })
@@ -108,29 +112,54 @@ refSignUp.addEventListener('click', function(){
 
 // LocalStorage
 
-let arrEmail = [];
 let date = [];
 
-signUp.addEventListener('click', function(){
-    let otherDate = {
-        firstName: firstName.value,
-        lastName: lastName.value,
-        email: emailSignUp.value,
-        password: passwordSignUp.value
+signUp.addEventListener('click', function() {
+    if(emailSignUp.value !== '') {   
+        if (localStorage.length > 0 && localStorage.getItem('date')) {
+            date = JSON.parse(localStorage.getItem('date'));
+            for(let i = 0; i < date.length; i++) {
+                if (date[i].email === emailSignUp.value) {
+                    emailSignUp.style.border = '1px solid red';
+                    sel('.error').classList.remove('hide');
+                    emailSignIn.style.border = 'none';
+                    passwordSignIn.style.border = 'none';
+                    return false
+                } 
+            }
+        }
+        let otherDate = {
+            firstName: `${firstName.value}`,
+            lastName: `${lastName.value}`,
+            email: `${emailSignUp.value}`,
+            password: `${passwordSignUp.value}`
+        }
+        date.push(otherDate);
+        localStorage.setItem('date', JSON.stringify(date));
     }
-    date.push(otherDate);
-    console.log(date);
-    console.log(arrEmail);
-
-    if(localStorage.length > 0 && localStorage.getItem('date')){
-        date = JSON.parse(localStorage.getItem('date'));
-    }
-    if(!arrEmail.some(name => name.toLowerCase() === emailSignUp.value.toLowerCase())){
-        arrEmail.push(emailSignUp.value);
-    }
-    localStorage.setItem('date', JSON.stringify(date));
-    
     clearInput();
 });
+
+signIn.addEventListener('click', function(){
+    date = JSON.parse(localStorage.getItem('date'));
+    for (let i = 0; i < date.length; i++) {
+        if(date[i].email === emailSignIn.value && date[i].password === passwordSignIn.value) {
+            formSignIn.style.display = 'none';
+            sel('.account').classList.remove('hide');
+            sel('.profile-name').innerHTML = `${date[i].firstName} ${date[i].lastName}`;
+            sel('.profile-email').innerHTML = `${date[i].email}`;
+            clearInput();
+            emailSignIn.value = '';
+            passwordSignIn.value = '';
+        }
+    }
+})
+
+sel('#btnAccount').addEventListener('click', function(){
+    formSignUp.style.display = 'flex';
+    sel('.account').classList.add('hide');
+})
+
+
 
 
