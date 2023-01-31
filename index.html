@@ -10,8 +10,38 @@
 </head>
 
 <body>
+    <div class="container">
+        <form id="formSignUp" >
+            <h2 class="title">Please sign up</h2>
+            <input type="text" id="firstName" placeholder="First name" required>
+            <input type="text" id="lastName" placeholder="Last name" required>
+            <input type="text" id="emailSignUp" placeholder="Email address" required>
+            <input type="password" id="passwordSignUp" placeholder="Password" required>
+            <input type="button" id="signUp" value="Sign Up" disabled>
+            <a href="#" id="refSignIn">Sign in now</a>
+        </form>
+        <form id="formSignIn">
+            <h2 class="title">Please sign in</h2>
+            <input type="text" id="emailSignIn" placeholder="Email address" required>
+            <input type="password" id="passwordSignIn" placeholder="Password" required>
+            <input type="button" id="signIn" value="Sign In" disabled>
+            <a href="#" id="refSignUp">Sign up now</a>
+        </form>
+        <div class="account hide">
+            <div class="profile">
+                <div class="profile-avatar">
+                    <img src="images/software-developer-copy.png" alt="">
+                </div>
+                <h2 class="profile-name"></h2>
+                <h3 class="profile-email"></h3>
+                <h3 class="profile-direction"></h3>
+                <div class="slash"></div>
+            </div>
+            <button id="btnAccount">Sign Up</button>
+        </div>
+    </div>
    
-    <script src="script.js" ></script>
+    <script src="script.js"></script>
 </body>
 
 </html>
