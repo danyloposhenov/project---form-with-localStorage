@@ -143,26 +143,34 @@ signUp.addEventListener('click', function () {
 });
 
 signIn.addEventListener('click', function () {
-    date = JSON.parse(localStorage.getItem('date'));
-    for (let i = 0; i < date.length; i++) {
-        if (date[i].email === emailSignIn.value && date[i].password === passwordSignIn.value) {
-            sel('.error2').classList.add('hide');
-            formSignIn.style.display = 'none';
-            sel('.account').classList.remove('hide');
-            sel('.profile-name').innerHTML = `${date[i].firstName} ${date[i].lastName}`;
-            sel('.profile-email').innerHTML = `${date[i].email}`;
-            clearInput();
-            return
+    if(date.length != 0) {
+        date = JSON.parse(localStorage.getItem('date'));
+        for (let i = 0; i < date.length; i++) {
+            if (date[i].email === emailSignIn.value && date[i].password === passwordSignIn.value) {
+                sel('.error2').classList.add('hide');
+                formSignIn.style.display = 'none';
+                sel('.account').classList.remove('hide');
+                sel('.profile-name').innerHTML = `${date[i].firstName} ${date[i].lastName}`;
+                sel('.profile-email').innerHTML = `${date[i].email}`;
+                clearInput();
+                return
+            }
+            sel('.error2').classList.remove('hide');
         }
+        clearInput();
+    } else {
         sel('.error2').classList.remove('hide');
+        clearInput();
     }
-    clearInput();
+    
 })
 
 sel('#btnAccount').addEventListener('click', function () {
     formSignUp.style.display = 'flex';
     sel('.account').classList.add('hide');
 })
+
+// localStorage.clear();
 
 
 
