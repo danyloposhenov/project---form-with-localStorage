@@ -86,6 +86,8 @@ function clearInput() {
     lastName.value = '';
     emailSignUp.value = '';
     passwordSignUp.value = '';
+    emailSignIn.value = '';
+    passwordSignIn.value = '';
     firstName.style.border = 'none';
     lastName.style.border = 'none';
     emailSignUp.style.border = 'none';
@@ -114,18 +116,18 @@ refSignUp.addEventListener('click', function () {
 
 let date = [];
 
-signUp.addEventListener('click', function() {
-    if(emailSignUp.value !== '') {   
+signUp.addEventListener('click', function () {
+    if (emailSignUp.value !== '') {
         if (localStorage.length > 0 && localStorage.getItem('date')) {
             date = JSON.parse(localStorage.getItem('date'));
-            for(let i = 0; i < date.length; i++) {
+            for (let i = 0; i < date.length; i++) {
                 if (date[i].email === emailSignUp.value) {
                     emailSignUp.style.border = '1px solid red';
                     sel('.error').classList.remove('hide');
                     emailSignIn.style.border = 'none';
                     passwordSignIn.style.border = 'none';
                     return false
-                } 
+                }
             }
         }
         let otherDate = {
@@ -140,22 +142,24 @@ signUp.addEventListener('click', function() {
     clearInput();
 });
 
-signIn.addEventListener('click', function(){
+signIn.addEventListener('click', function () {
     date = JSON.parse(localStorage.getItem('date'));
     for (let i = 0; i < date.length; i++) {
-        if(date[i].email === emailSignIn.value && date[i].password === passwordSignIn.value) {
+        if (date[i].email === emailSignIn.value && date[i].password === passwordSignIn.value) {
+            sel('.error2').classList.add('hide');
             formSignIn.style.display = 'none';
             sel('.account').classList.remove('hide');
             sel('.profile-name').innerHTML = `${date[i].firstName} ${date[i].lastName}`;
             sel('.profile-email').innerHTML = `${date[i].email}`;
             clearInput();
-            emailSignIn.value = '';
-            passwordSignIn.value = '';
+            return
         }
+        sel('.error2').classList.remove('hide');
     }
+    clearInput();
 })
 
-sel('#btnAccount').addEventListener('click', function(){
+sel('#btnAccount').addEventListener('click', function () {
     formSignUp.style.display = 'flex';
     sel('.account').classList.add('hide');
 })
